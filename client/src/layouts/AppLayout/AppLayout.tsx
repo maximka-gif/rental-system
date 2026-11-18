@@ -13,8 +13,10 @@ import {
   Bell,
   Sun,
   Moon,
+  LogOut,
 } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
+import { useAuth } from "../../context/AuthContext";
 import { cn } from "../../utils/cn";
 import styles from "./AppLayout.module.scss";
 
@@ -32,10 +34,19 @@ const menu = [
 export function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggle } = useTheme();
+  const { user, logout } = useAuth();
+  const initials = user ? user.firstName[0] + user.lastName[0] : "";
+  const roleLabel = {
+    OWNER: "Власник",
+    TENANT: "Орендар",
+    ADMIN: "Адміністратор",
+  };
 
   return (
     <div className={styles.layout}>
-      {menuOpen && <div className={styles.backdrop} onClick={() => setMenuOpen(false)} />}
+      {menuOpen && (
+        <div className={styles.backdrop} onClick={() => setMenuOpen(false)} />
+      )}
 
       <aside className={cn(styles.sidebar, menuOpen && styles.open)}>
         <div className={styles.brand}>
@@ -52,7 +63,9 @@ export function AppLayout() {
               to={item.to}
               end={item.end}
               onClick={() => setMenuOpen(false)}
-              className={({ isActive }) => cn(styles.link, isActive && styles.active)}
+              className={({ isActive }) =>
+                cn(styles.link, isActive && styles.active)
+              }
             >
               <item.icon size={18} />
               {item.label}
@@ -73,7 +86,11 @@ export function AppLayout() {
 
           <div className={styles.spacer} />
 
-          <button className={styles.iconButton} onClick={toggle} aria-label="Змінити тему">
+          <button
+            className={styles.iconButton}
+            onClick={toggle}
+            aria-label="Змінити тему"
+          >
             {theme === "light" ? <Moon size={19} /> : <Sun size={19} />}
           </button>
 
@@ -83,12 +100,24 @@ export function AppLayout() {
           </button>
 
           <div className={styles.user}>
-            <span className={styles.avatar}>МК</span>
+            <span className={styles.avatar}>{initials}</span>
             <div className={styles.userText}>
-              <span className={styles.userName}>Максим Коваленко</span>
-              <span className={styles.userRole}>Власник</span>
+              <span className={styles.userName}>
+                {user?.firstName} {user?.lastName}
+              </span>
+              <span className={styles.userRole}>
+                {user ? roleLabel[user.role] : ""}
+              </span>
             </div>
           </div>
+
+          <button
+            className={styles.iconButton}
+            onClick={logout}
+            aria-label="Вийти"
+          >
+            <LogOut size={19} />
+          </button>
         </header>
 
         <main className={styles.main}>
