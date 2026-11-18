@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
+import { UPLOAD_DIR } from "./middleware/upload";
 import { authenticate, requireRole } from "./middleware/auth";
 import { errorHandler } from "./middleware/error";
 import propertiesRoutes from "./routes/properties.routes";
@@ -10,7 +11,7 @@ const app = express();
 
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
-
+app.use("/uploads", express.static(UPLOAD_DIR));
 // перевірка, що сервер живий
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });

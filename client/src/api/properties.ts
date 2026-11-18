@@ -63,3 +63,36 @@ export function updateProperty(id: string, data: PropertyInput) {
 export function deleteProperty(id: string) {
   return api<void>(`/properties/${id}`, { method: "DELETE" });
 }
+
+export type PropertyPhoto = { id: string; url: string; isCover: boolean };
+
+export type PropertyLease = {
+  id: string;
+  number: string;
+  status: "DRAFT" | "ACTIVE" | "EXPIRED" | "TERMINATED";
+  startDate: string;
+  endDate: string;
+  rentAmount: number;
+  tenant: string;
+};
+
+export type PropertyDetails = Omit<PropertyListItem, "coverUrl" | "tenant" | "rent"> & {
+  photos: PropertyPhoto[];
+  leases: PropertyLease[];
+};
+
+export function fetchProperty(id: string) {
+  return api<PropertyDetails>(`/properties/${id}`);
+}
+
+export function uploadPhotos(id: string, form: FormData) {
+  return api<PropertyDetails>(`/properties/${id}/photos`, { method: "POST", body: form });
+}
+
+export function deletePhoto(id: string, photoId: string) {
+  return api<PropertyDetails>(`/properties/${id}/photos/${photoId}`, { method: "DELETE" });
+}
+
+export function setCoverPhoto(id: string, photoId: string) {
+  return api<PropertyDetails>(`/properties/${id}/photos/${photoId}/cover`, { method: "PATCH" });
+}

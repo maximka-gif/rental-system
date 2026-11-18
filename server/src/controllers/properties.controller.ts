@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as service from "../schemas/properties.service";
+import * as service from "../services/properties.service";
 import {
   propertySchema,
   propertyUpdateSchema,
@@ -28,4 +28,21 @@ export async function update(req: Request, res: Response) {
 export async function remove(req: Request, res: Response) {
   await service.remove(res.locals.user.id, String(req.params.id));
   res.status(204).end();
+}
+
+export async function addPhotos(req: Request, res: Response) {
+  const files = (req.files as Express.Multer.File[] | undefined) ?? [];
+  res.status(201).json(await service.addPhotos(res.locals.user.id, String(req.params.id), files));
+}
+
+export async function deletePhoto(req: Request, res: Response) {
+  res.json(
+    await service.deletePhoto(res.locals.user.id, String(req.params.id), String(req.params.photoId))
+  );
+}
+
+export async function setCover(req: Request, res: Response) {
+  res.json(
+    await service.setCover(res.locals.user.id, String(req.params.id), String(req.params.photoId))
+  );
 }

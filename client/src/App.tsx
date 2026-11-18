@@ -5,6 +5,7 @@ import { AppLayout } from "./layouts/AppLayout/AppLayout";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { PropertiesPage } from "./pages/Properties/PropertiesPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { PropertyDetailsPage } from "./pages/Properties/PropertyDetailsPage";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<PlaceholderPage title="Дашборд" />} />
               <Route path="properties" element={<PropertiesPage />} />
+              <Route path="properties/:id" element={<PropertyDetailsPage />} />
               <Route path="tenants" element={<PlaceholderPage title="Орендарі" />} />
               <Route path="leases" element={<PlaceholderPage title="Договори" />} />
               <Route path="payments" element={<PlaceholderPage title="Платежі" />} />

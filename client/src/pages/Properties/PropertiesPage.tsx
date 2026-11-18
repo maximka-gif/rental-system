@@ -1,23 +1,23 @@
 import { useState } from "react";
-import type { ReactNode } from "react";
-import { Building2, DoorOpen, Home, KeyRound, Pencil, Plus, Search, Trash2, Wrench } from "lucide-react";
+import { Building2, Home, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { Button } from "../../components/ui/Button/Button";
 import { Badge } from "../../components/ui/Badge/Badge";
 import { Modal } from "../../components/ui/Modal/Modal";
 import { Table } from "../../components/ui/Table/Table";
-import { CellMain, Money, RowActions } from "../../components/ui/Table/TableParts";
+import {
+  CellMain,
+  Money,
+  RowActions,
+} from "../../components/ui/Table/TableParts";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useDeleteProperty, useProperties } from "../../hooks/useProperties";
 import type { PropertyListItem, PropertyStatus } from "../../api/properties";
 import { PropertyFormModal } from "./PropertyFormModal";
+import { useNavigate } from "react-router-dom";
+import { statusView } from "./statusView";
+import { fileUrl } from "../../api/client";
 import { cn } from "../../utils/cn";
 import styles from "./Properties.module.scss";
-
-const statusView: Record<PropertyStatus, { label: string; tone: "success" | "info" | "warning"; icon: ReactNode }> = {
-  RENTED: { label: "Здано", tone: "success", icon: <KeyRound size={13} /> },
-  VACANT: { label: "Вільно", tone: "info", icon: <DoorOpen size={13} /> },
-  MAINTENANCE: { label: "Ремонт", tone: "warning", icon: <Wrench size={13} /> },
-};
 
 const filterOptions: { value: PropertyStatus | ""; label: string }[] = [
   { value: "", label: "Усі" },
@@ -31,8 +31,12 @@ export function PropertiesPage() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search);
 
-  const { data, isLoading, isError } = useProperties({ status, search: debouncedSearch });
+  const { data, isLoading, isError } = useProperties({
+    status,
+    search: debouncedSearch,
+  });
   const remove = useDeleteProperty();
+  const navigate = useNavigate();
 
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<PropertyListItem | null>(null);
@@ -85,7 +89,9 @@ export function PropertiesPage() {
       <div className={styles.head}>
         <div>
           <h1>Об'єкти нерухомості</h1>
-          <p className={styles.muted}>{data ? `Знайдено: ${data.length}` : " "}</p>
+          <p className={styles.muted}>
+            {data ? `Знайдено: ${data.length}` : " "}
+          </p>
         </div>
         <Button onClick={openCreate}>
           <Plus size={18} />
@@ -107,7 +113,10 @@ export function PropertiesPage() {
           {filterOptions.map((option) => (
             <button
               key={option.value}
-              className={cn(styles.chip, status === option.value && styles.chipActive)}
+              className={cn(
+                styles.chip,
+                status === option.value && styles.chipActive,
+              )}
               onClick={() => setStatus(option.value)}
             >
               {option.label}
@@ -121,23 +130,47 @@ export function PropertiesPage() {
         getRowKey={(r) => r.id}
         getRowTone={(r) => statusView[r.status].tone}
         emptyText={emptyText()}
+        onRowClick={(r) => navigate(`/properties/${r.id}`)}
         columns={[
           {
             header: "Об'єкт",
             render: (r) => (
               <CellMain
-                icon={r.type === "HOUSE" ? <Home size={20} /> : <Building2 size={20} />}
+                icon={
+                  r.coverUrl ? (
+                    <img
+                      src={fileUrl(r.coverUrl)}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : r.type === "HOUSE" ? (
+                    <Home size={20} />
+                  ) : (
+                    <Building2 size={20} />
+                  )
+                }
                 title={r.title}
                 subtitle={r.address}
               />
             ),
           },
           { header: "Орендар", render: (r) => r.tenant ?? "-" },
-          { header: "Оренда / міс", align: "right", render: (r) => <Money value={r.rent ?? r.baseRent} /> },
+          {
+            header: "Оренда / міс",
+            align: "right",
+            render: (r) => <Money value={r.rent ?? r.baseRent} />,
+          },
           {
             header: "Статус",
             render: (r) => (
-              <Badge tone={statusView[r.status].tone} icon={statusView[r.status].icon}>
+              <Badge
+                tone={statusView[r.status].tone}
+                icon={statusView[r.status].icon}
+              >
                 {statusView[r.status].label}
               </Badge>
             ),
@@ -147,10 +180,26 @@ export function PropertiesPage() {
             align: "right",
             render: (r) => (
               <RowActions>
-                <Button variant="ghost" size="sm" aria-label="Редагувати" onClick={() => openEdit(r)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Редагувати"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openEdit(r);
+                  }}
+                >
                   <Pencil size={16} />
                 </Button>
-                <Button variant="ghost" size="sm" aria-label="Видалити" onClick={() => askDelete(r)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Видалити"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    askDelete(r);
+                  }}
+                >
                   <Trash2 size={16} />
                 </Button>
               </RowActions>
@@ -159,19 +208,32 @@ export function PropertiesPage() {
         ]}
       />
 
-      <PropertyFormModal open={formOpen} property={editing} onClose={() => setFormOpen(false)} />
+      <PropertyFormModal
+        open={formOpen}
+        property={editing}
+        onClose={() => setFormOpen(false)}
+      />
 
-      <Modal open={deleting !== null} title="Видалити об'єкт?" onClose={() => setDeleting(null)}>
+      <Modal
+        open={deleting !== null}
+        title="Видалити об'єкт?"
+        onClose={() => setDeleting(null)}
+      >
         <div className={styles.confirm}>
           <p>
-            Ви збираєтеся видалити «{deleting?.title}». Цю дію не можна скасувати.
+            Ви збираєтеся видалити «{deleting?.title}». Цю дію не можна
+            скасувати.
           </p>
           {deleteError && <div className={styles.alert}>{deleteError}</div>}
           <div className={styles.footer}>
             <Button variant="secondary" onClick={() => setDeleting(null)}>
               Скасувати
             </Button>
-            <Button variant="danger" loading={remove.isPending} onClick={confirmDelete}>
+            <Button
+              variant="danger"
+              loading={remove.isPending}
+              onClick={confirmDelete}
+            >
               Видалити
             </Button>
           </div>

@@ -1,0 +1,219 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/variables" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  width: fit-content;
+  color: var(--color-text-muted);
+  font-weight: 500;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.head {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $space-4;
+}
+
+.headActions {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  gap: $space-5;
+
+  @include respond-to(lg) {
+    grid-template-columns: 1.6fr 1fr;
+    align-items: start;
+  }
+}
+
+// ── галерея ──
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.mainPhoto {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: $radius-lg;
+  border: 1px solid var(--color-border);
+}
+
+.emptyPhoto {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-2;
+  aspect-ratio: 16 / 10;
+  border: 2px dashed var(--color-border);
+  border-radius: $radius-lg;
+  color: var(--color-text-muted);
+}
+
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+}
+
+.thumb {
+  position: relative;
+  width: 110px;
+  height: 80px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: $radius-md;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  &:hover .thumbActions {
+    opacity: 1;
+  }
+}
+
+.thumbActive {
+  border-color: var(--color-primary);
+}
+
+.coverMark {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 1px $space-2;
+  border-top-right-radius: $radius-sm;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.thumbActions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+
+  button {
+    @include flex-center;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: $radius-sm;
+    background: rgba(10, 12, 25, 0.7);
+    color: #ffffff;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(10, 12, 25, 0.9);
+    }
+  }
+}
+
+@media (hover: none) {
+  .thumbActions {
+    opacity: 1;
+  }
+}
+
+.addThumb {
+  @include flex-center;
+  flex-direction: column;
+  gap: 2px;
+  width: 110px;
+  height: 80px;
+  border: 2px dashed var(--color-border);
+  border-radius: $radius-md;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+}
+
+.alert {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+// ── права колонка ──
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.priceCard {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+
+  :global(.money),
+  span:nth-child(2) {
+    font-size: 28px;
+  }
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-4;
+  margin: 0;
+
+  dt {
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 600;
+  }
+}
+
+.description {
+  margin-top: $space-2;
+  color: var(--color-text-muted);
+  white-space: pre-line;
+}
+
+.leases {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}

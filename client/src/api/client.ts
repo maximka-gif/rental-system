@@ -59,8 +59,36 @@ type Options = {
   body?: unknown;
 };
 
-export async function api<T>(path: string, options: Options = {}, retry = true): Promise<T> {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+function buildBody(body: unknown): BodyInit | undefined {
+  if (body === undefined) {
+    return undefined;
+  }
+  if (body instanceof FormData) {
+    return body;
+  }
+  return JSON.stringify(body);
+}
+
+// адреса сервера без /api, потрібна для картинок
+const API_ORIGIN = API_URL.replace(/\/api$/, "");
+
+export function fileUrl(url: string) {
+  if (url.startsWith("http")) {
+    return url;
+  }
+  return API_ORIGIN + url;
+}
+
+export async function api<T>(
+  path: string,
+  options: Options = {},
+  retry = true,
+): Promise<T> {
+  const isForm = options.body instanceof FormData;
+  const headers: Record<string, string> = {};
+  if (!isForm) {
+    headers["Content-Type"] = "application/json";
+  }
 
   const access = tokens.getAccess();
   if (access) {
@@ -70,7 +98,7 @@ export async function api<T>(path: string, options: Options = {}, retry = true):
   const res = await fetch(`${API_URL}${path}`, {
     method: options.method ?? "GET",
     headers,
-    body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+    body: buildBody(options.body),
   });
 
   // токен прострочений: пробуємо оновити й повторити запит один раз

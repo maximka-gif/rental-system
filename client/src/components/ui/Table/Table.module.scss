@@ -92,6 +92,7 @@
   border-radius: $radius-md;
   background: var(--color-primary-soft);
   color: var(--color-primary);
+  overflow: hidden;
 }
 
 .cellText {

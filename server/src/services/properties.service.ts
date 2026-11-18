@@ -1,3 +1,6 @@
+import fs from "fs/promises";
+import path from "path";
+import { UPLOAD_DIR } from "../middleware/upload";
 import { prisma } from "../db";
 import { AppError } from "../utils/errors";
 import type { PropertyInput, PropertyUpdateInput } from "../schemas/property.schema";
@@ -125,4 +128,70 @@ export async function remove(ownerId: string, id: string) {
   }
 
   await prisma.property.delete({ where: { id } });
+}
+
+export async function addPhotos(ownerId: string, id: string, files: Express.Multer.File[]) {
+  await findOwned(ownerId, id);
+
+  if (files.length === 0) {
+    throw new AppError(400, "Не вибрано жодного файлу");
+  }
+
+  // перше фото об'єкта автоматично стає обкладинкою
+  const existing = await prisma.propertyPhoto.count({ where: { propertyId: id } });
+
+  await prisma.propertyPhoto.createMany({
+    data: files.map((file, index) => ({
+      propertyId: id,
+      url: `/uploads/${file.filename}`,
+      isCover: existing === 0 && index === 0,
+    })),
+  });
+
+  return getById(ownerId, id);
+}
+
+async function findPhoto(ownerId: string, id: string, photoId: string) {
+  await findOwned(ownerId, id);
+
+  const photo = await prisma.propertyPhoto.findFirst({ where: { id: photoId, propertyId: id } });
+  if (!photo) {
+    throw new AppError(404, "Фото не знайдено");
+  }
+  return photo;
+}
+
+export async function deletePhoto(ownerId: string, id: string, photoId: string) {
+  const photo = await findPhoto(ownerId, id, photoId);
+
+  await prisma.propertyPhoto.delete({ where: { id: photoId } });
+
+  // видаляємо файл з диска (фото із seed лежать в інтернеті, їх пропускаємо)
+  if (photo.url.startsWith("/uploads/")) {
+    await fs.unlink(path.join(UPLOAD_DIR, path.basename(photo.url))).catch(() => {});
+  }
+
+  // якщо видалили обкладинку, призначаємо нову
+  if (photo.isCover) {
+    const next = await prisma.propertyPhoto.findFirst({
+      where: { propertyId: id },
+      orderBy: { createdAt: "asc" },
+    });
+    if (next) {
+      await prisma.propertyPhoto.update({ where: { id: next.id }, data: { isCover: true } });
+    }
+  }
+
+  return getById(ownerId, id);
+}
+
+export async function setCover(ownerId: string, id: string, photoId: string) {
+  await findPhoto(ownerId, id, photoId);
+
+  await prisma.$transaction([
+    prisma.propertyPhoto.updateMany({ where: { propertyId: id }, data: { isCover: false } }),
+    prisma.propertyPhoto.update({ where: { id: photoId }, data: { isCover: true } }),
+  ]);
+
+  return getById(ownerId, id);
 }
