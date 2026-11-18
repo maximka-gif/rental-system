@@ -1,34 +1,75 @@
 @use "../../../styles/variables" as *;
 
 .badge {
-  display: inline-block;
-  padding: 2px $space-3;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: 3px 12px 3px 4px;
   border-radius: 999px;
-  font-size: 12px;
+  border: 1px solid color-mix(in srgb, var(--tone) 25%, transparent);
+  background: var(--tone-soft);
+  color: var(--tone);
+  font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--tone);
+  color: var(--color-surface);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--tone);
 }
 
 .neutral {
-  background: var(--color-surface-2);
-  color: var(--color-text-muted);
+  --tone: var(--color-text-muted);
+  --tone-soft: var(--color-surface-2);
 }
 
 .success {
-  background: var(--color-success-soft);
-  color: var(--color-success);
+  --tone: var(--color-success);
+  --tone-soft: var(--color-success-soft);
 }
 
 .warning {
-  background: var(--color-warning-soft);
-  color: var(--color-warning);
+  --tone: var(--color-warning);
+  --tone-soft: var(--color-warning-soft);
 }
 
 .danger {
-  background: var(--color-danger-soft);
-  color: var(--color-danger);
+  --tone: var(--color-danger);
+  --tone-soft: var(--color-danger-soft);
 }
 
 .info {
-  background: var(--color-info-soft);
-  color: var(--color-info);
+  --tone: var(--color-info);
+  --tone-soft: var(--color-info-soft);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.pulse .mark,
+.pulse .dot {
+  animation: pulse 1.8s infinite;
 }

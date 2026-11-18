@@ -1,0 +1,133 @@
+@use "../../../styles/variables" as *;
+
+.wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-lg;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th {
+    padding: $space-3 $space-4;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-surface-2);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: $space-4;
+    white-space: nowrap;
+    vertical-align: middle;
+    transition: background 0.15s;
+  }
+
+  tbody tr + tr td {
+    border-top: 1px solid var(--color-border);
+  }
+
+  // кольорова смужка зліва кодує статус рядка
+  tbody tr td:first-child {
+    box-shadow: inset 4px 0 0 var(--stripe, transparent);
+  }
+
+  tbody tr[data-tone="success"] {
+    --stripe: var(--color-success);
+  }
+
+  tbody tr[data-tone="warning"] {
+    --stripe: var(--color-warning);
+  }
+
+  tbody tr[data-tone="danger"] {
+    --stripe: var(--color-danger);
+  }
+
+  tbody tr[data-tone="info"] {
+    --stripe: var(--color-info);
+  }
+
+  tbody tr[data-tone="neutral"] {
+    --stripe: var(--color-border);
+  }
+
+  tbody tr:hover td {
+    background: var(--color-primary-soft);
+  }
+
+  tbody tr:hover .actions,
+  tbody tr:focus-within .actions {
+    opacity: 1;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center !important;
+  color: var(--color-text-muted);
+}
+
+.cellMain {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.cellIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: $radius-md;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.cellText {
+  display: flex;
+  flex-direction: column;
+}
+
+.cellTitle {
+  font-weight: 600;
+}
+
+.cellSub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.money {
+  font-weight: 700;
+
+  small {
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-1;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+// на телефонах наведення немає, тож кнопки показуємо завжди
+@media (hover: none) {
+  .actions {
+    opacity: 1;
+  }
+}
