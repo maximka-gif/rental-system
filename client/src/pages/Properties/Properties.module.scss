@@ -1,0 +1,118 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/variables" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.head {
+  @include flex-between;
+  flex-wrap: wrap;
+  gap: $space-4;
+}
+
+.muted {
+  margin-top: $space-1;
+  color: var(--color-text-muted);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  flex: 1;
+  min-width: 240px;
+  max-width: 360px;
+  padding: 0 $space-3;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-md;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+
+  &:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-soft);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text);
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.chip {
+  padding: 8px $space-4;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: var(--color-surface-2);
+  }
+}
+
+.chipActive {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+// ── форма ──
+.form {
+  display: grid;
+  gap: $space-4;
+
+  @include respond-to(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.full {
+  @include respond-to(md) {
+    grid-column: 1 / -1;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+}
+
+.alert {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}

@@ -18,6 +18,7 @@ function toListItem(p: any) {
     area: toNumber(p.area),
     rooms: p.rooms,
     floor: p.floor,
+    description: p.description,
     baseRent: Number(p.baseRent),
     purchasePrice: toNumber(p.purchasePrice),
     coverUrl: p.photos && p.photos.length > 0 ? p.photos[0].url : null,

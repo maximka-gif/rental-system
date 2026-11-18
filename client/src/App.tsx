@@ -3,8 +3,9 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AppLayout } from "./layouts/AppLayout/AppLayout";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
-import { PropertiesPage } from "./pages/PropertiesPage";
+import { PropertiesPage } from "./pages/Properties/PropertiesPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
+
 
 function App() {
   return (
