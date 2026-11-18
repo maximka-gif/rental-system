@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes";
 import { authenticate, requireRole } from "./middleware/auth";
 import { errorHandler } from "./middleware/error";
+import propertiesRoutes from "./routes/properties.routes";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/properties", propertiesRoutes);
 
 // тимчасовий маршрут для перевірки ролей (потім видалимо)
 app.get("/api/owner-only", authenticate, requireRole("OWNER"), (_req, res) => {
