@@ -1,0 +1,212 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/variables" as *;
+
+.layout {
+  display: flex;
+  min-height: 100%;
+}
+
+// ── бічне меню ──
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 50;
+  width: $sidebar-width;
+  display: flex;
+  flex-direction: column;
+  padding: $space-4;
+  background: #161a33;
+  color: #b9bfdc;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+
+  &.open {
+    transform: none;
+  }
+
+  @include respond-to(lg) {
+    transform: none;
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(10, 12, 25, 0.55);
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 $space-2 $space-5;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.logo {
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-md;
+  background: linear-gradient(135deg, #7c83ff, #4f46e5);
+  color: #ffffff;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: 10px $space-3;
+  border-radius: $radius-md;
+  color: inherit;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+
+  svg {
+    color: #7f86b0;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+  }
+}
+
+.active {
+  background: rgba(124, 131, 255, 0.18);
+  color: #ffffff;
+
+  svg {
+    color: #9aa0ff;
+  }
+}
+
+// ── правий бік ──
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  @include respond-to(lg) {
+    margin-left: $sidebar-width;
+  }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  height: $header-height;
+  padding: 0 $space-5;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.iconButton {
+  position: relative;
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: $radius-md;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-2);
+  }
+}
+
+.burger {
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.bellCount {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-danger);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-left: $space-3;
+  padding-left: $space-4;
+  border-left: 1px solid var(--color-border);
+}
+
+.avatar {
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.userText {
+  display: none;
+  flex-direction: column;
+  line-height: 1.25;
+
+  @include respond-to(md) {
+    display: flex;
+  }
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.userRole {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-5;
+
+  @include respond-to(lg) {
+    padding: $space-6;
+  }
+}
