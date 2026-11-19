@@ -8,6 +8,7 @@ import { errorHandler } from "./middleware/error";
 import propertiesRoutes from "./routes/properties.routes";
 import tenantsRoutes from "./routes/tenants.routes";
 import invitesRoutes from "./routes/invites.routes";
+import leasesRoutes from "./routes/leases.routes";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/properties", propertiesRoutes);
 app.use("/api/tenants", tenantsRoutes);
+app.use("/api/leases", leasesRoutes);
 app.use("/api/invites", invitesRoutes);
 
 // тимчасовий маршрут для перевірки ролей (потім видалимо)
