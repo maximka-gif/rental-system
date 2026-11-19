@@ -1,0 +1,88 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/variables" as *;
+
+// шкала надійності
+.score {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  min-width: 140px;
+}
+
+.track {
+  flex: 1;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-surface-2);
+}
+
+.fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.high {
+  background: var(--color-success);
+}
+
+.mid {
+  background: var(--color-warning);
+}
+
+.low {
+  background: var(--color-danger);
+}
+
+.scoreValue {
+  width: 28px;
+  font-weight: 700;
+  text-align: right;
+}
+
+// вікно запрошення
+.invite {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.linkBox {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2;
+  border: 1px solid var(--color-border);
+  border-radius: $radius-md;
+  background: var(--color-surface-2);
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: $space-2;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text);
+    font-size: 13px;
+  }
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.alert {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+}

@@ -9,6 +9,11 @@ type AuthContextValue = {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  setSession: (data: {
+    user: User;
+    accessToken: string;
+    refreshToken: string;
+  }) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -58,8 +63,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }
 
+    function setSession(data: { user: User; accessToken: string; refreshToken: string }) {
+    tokens.set(data.accessToken, data.refreshToken);
+    setUser(data.user);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, setSession }}>
       {children}
     </AuthContext.Provider>
   );
