@@ -10,6 +10,7 @@ import { TenantsPage } from "./pages/Tenants/TenantsPage";
 import { AccountHomePage } from "./pages/AccountHomePage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { LeasesPage } from "./pages/Leases/LeasesPage";
+import { PaymentsPage } from "./pages/Payments/PaymentsPage";
 
 function App() {
   return (
@@ -27,10 +28,7 @@ function App() {
               <Route path="properties/:id" element={<PropertyDetailsPage />} />
               <Route path="tenants" element={<TenantsPage />} />
               <Route path="leases" element={<LeasesPage />} />
-              <Route
-                path="payments"
-                element={<PlaceholderPage title="Платежі" />}
-              />
+              <Route path="payments" element={<PaymentsPage />} />
               <Route
                 path="requests"
                 element={<PlaceholderPage title="Заявки на ремонт" />}
