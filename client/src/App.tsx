@@ -16,6 +16,8 @@ import { MockGatewayPage } from "./pages/Cabinet/MockGatewayPage";
 import { PayResultPage } from "./pages/Cabinet/PayResultPage";
 import { AccountHomePage } from "./pages/AccountHomePage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { RequestsPage } from "./pages/Requests/RequestsPage";
+import { CabinetRequestsPage } from "./pages/Requests/CabinetRequestsPage";
 
 function App() {
   return (
@@ -34,9 +36,15 @@ function App() {
               <Route path="tenants" element={<TenantsPage />} />
               <Route path="leases" element={<LeasesPage />} />
               <Route path="payments" element={<PaymentsPage />} />
-              <Route path="requests" element={<PlaceholderPage title="Заявки на ремонт" />} />
-              <Route path="finance" element={<PlaceholderPage title="Фінанси" />} />
-              <Route path="settings" element={<PlaceholderPage title="Налаштування" />} />
+              <Route path="requests" element={<RequestsPage />} />
+              <Route
+                path="finance"
+                element={<PlaceholderPage title="Фінанси" />}
+              />
+              <Route
+                path="settings"
+                element={<PlaceholderPage title="Налаштування" />}
+              />
             </Route>
           </Route>
 
@@ -46,8 +54,11 @@ function App() {
               <Route path="my" element={<CabinetHomePage />} />
               <Route path="my/lease" element={<CabinetLeasePage />} />
               <Route path="my/invoices" element={<CabinetInvoicesPage />} />
-              <Route path="my/requests" element={<PlaceholderPage title="Заявки на ремонт" />} />
-              <Route path="my/settings" element={<PlaceholderPage title="Налаштування" />} />
+              <Route path="my/requests" element={<CabinetRequestsPage />} />
+              <Route
+                path="my/settings"
+                element={<PlaceholderPage title="Налаштування" />}
+              />
               <Route path="my/pay/result" element={<PayResultPage />} />
             </Route>
             <Route path="pay/mock/:orderId" element={<MockGatewayPage />} />

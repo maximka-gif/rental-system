@@ -1,0 +1,427 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/variables" as *;
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.alert {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+.success {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 14px;
+}
+
+.info {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.propertySelect {
+  min-width: 220px;
+}
+
+// ── дошка власника ──
+.board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 85%;
+  gap: $space-4;
+  padding-bottom: $space-3;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  @include respond-to(lg) {
+    grid-auto-flow: row;
+    grid-auto-columns: unset;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    overflow: visible;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  min-height: 220px;
+  padding: $space-3;
+  border-radius: $radius-lg;
+  background: var(--color-surface-2);
+  scroll-snap-align: start;
+
+  &[data-tone="info"] {
+    --col: var(--color-info);
+  }
+
+  &[data-tone="warning"] {
+    --col: var(--color-warning);
+  }
+
+  &[data-tone="success"] {
+    --col: var(--color-success);
+  }
+
+  &[data-tone="neutral"] {
+    --col: var(--color-text-muted);
+  }
+}
+
+.columnHead {
+  @include flex-between;
+  padding: $space-1 $space-1 $space-2;
+}
+
+.columnTitle {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-weight: 700;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--col);
+}
+
+.count {
+  min-width: 24px;
+  padding: 1px $space-2;
+  border-radius: 999px;
+  background: var(--color-surface);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.emptyColumn {
+  padding: $space-5 $space-2;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+// ── картка заявки ──
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  width: 100%;
+  padding: $space-4;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--p, var(--color-border));
+  border-radius: $radius-md;
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &[data-priority="LOW"] {
+    --p: var(--color-text-muted);
+  }
+
+  &[data-priority="MEDIUM"] {
+    --p: var(--color-info);
+  }
+
+  &[data-priority="HIGH"] {
+    --p: var(--color-warning);
+  }
+
+  &[data-priority="URGENT"] {
+    --p: var(--color-danger);
+  }
+}
+
+.cardTop {
+  @include flex-between;
+  gap: $space-2;
+}
+
+.priorityTag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--p);
+}
+
+.time {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.cardTitle {
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.cardLine {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.cardImg {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: $radius-sm;
+}
+
+.cardFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3;
+  margin-top: $space-1;
+}
+
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.cardCost {
+  margin-left: auto;
+  font-size: 14px;
+}
+
+// ── сторінка орендаря ──
+.cardGrid {
+  display: grid;
+  gap: $space-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.emptyState {
+  @include flex-center;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-7 $space-5;
+  border: 2px dashed var(--color-border);
+  border-radius: $radius-lg;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+// ── вікно заявки ──
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-4;
+  margin: 0;
+
+  dt {
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 600;
+  }
+}
+
+.description {
+  white-space: pre-line;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+
+  img {
+    width: 92px;
+    height: 70px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-sm;
+  }
+}
+
+.chatBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-self: flex-start;
+  max-width: 85%;
+  padding: $space-2 $space-3;
+  border-radius: $radius-md;
+  background: var(--color-surface-2);
+}
+
+.mine {
+  align-self: flex-end;
+  background: var(--color-primary-soft);
+}
+
+.bubbleMeta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.commentForm {
+  display: flex;
+  gap: $space-2;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: $space-3;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-md;
+    background: var(--color-surface);
+    outline: none;
+
+    &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-soft);
+    }
+  }
+}
+
+.subForm {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  padding: $space-4;
+  border: 1px dashed var(--color-border);
+  border-radius: $radius-md;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: $space-3;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-3;
+}
+
+// ── вибір фото у формі ──
+.fieldLabel {
+  display: block;
+  margin-bottom: $space-2;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.fieldError {
+  display: block;
+  margin-top: $space-1;
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+.previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.preview {
+  position: relative;
+  width: 84px;
+  height: 64px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius-sm;
+  }
+
+  button {
+    @include flex-center;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(10, 12, 25, 0.75);
+    color: #ffffff;
+    cursor: pointer;
+  }
+}
+
+.addPhoto {
+  @include flex-center;
+  flex-direction: column;
+  gap: 2px;
+  width: 84px;
+  height: 64px;
+  border: 2px dashed var(--color-border);
+  border-radius: $radius-sm;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+}

@@ -46,3 +46,37 @@ export function monthOptions(back = 11, forward = 2) {
 export function todayString() {
   return new Date().toLocaleDateString("sv-SE");
 }
+
+export function formatDateTime(value: string) {
+  return new Date(value).toLocaleString("uk-UA", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+// "3 дн. тому"
+export function timeAgo(value: string) {
+  const minutes = Math.floor((Date.now() - new Date(value).getTime()) / 60000);
+
+  if (minutes < 1) {
+    return "щойно";
+  }
+  if (minutes < 60) {
+    return `${minutes} хв тому`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) {
+    return `${hours} год тому`;
+  }
+
+  const days = Math.floor(hours / 24);
+  if (days < 30) {
+    return `${days} дн. тому`;
+  }
+
+  return formatDateTime(value).slice(0, 10);
+}
