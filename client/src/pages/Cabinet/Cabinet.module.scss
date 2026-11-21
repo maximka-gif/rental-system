@@ -1,0 +1,221 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/variables" as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.alert {
+  padding: $space-3;
+  border-radius: $radius-md;
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+// ── підсумки ──
+.stats {
+  display: grid;
+  gap: $space-3;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stat {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: $space-4 $space-5;
+
+  span {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  strong {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.statDebt strong {
+  color: var(--color-danger);
+}
+
+// ── рахунок до оплати ──
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.bannerOverdue {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.bannerTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3;
+}
+
+.allPaid {
+  border-color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
+// ── картка об'єкта ──
+.leaseCard {
+  display: grid;
+  overflow: hidden;
+  padding: 0;
+
+  @include respond-to(md) {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+.photo {
+  @include flex-center;
+  min-height: 200px;
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.leaseBody {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding: $space-5;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-4;
+  margin: $space-3 0 0;
+
+  dt {
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  dd {
+    margin: 2px 0 0;
+    font-weight: 600;
+  }
+}
+
+// ── сторінка шлюзу ──
+.gatewayPage {
+  @include flex-center;
+  min-height: 100%;
+  padding: $space-5;
+  background: linear-gradient(145deg, #eef0f6, #dfe3f3);
+
+  :global([data-theme="dark"]) & {
+    background: linear-gradient(145deg, #0f1220, #181c2e);
+  }
+}
+
+.gatewayCard {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  width: 100%;
+  max-width: 420px;
+  padding: $space-6;
+  box-shadow: var(--shadow-md);
+}
+
+.gatewayHead {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.gatewayAmount {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: $space-4;
+  border-radius: $radius-md;
+  background: var(--color-surface-2);
+
+  span {
+    color: var(--color-text-muted);
+    font-size: 14px;
+  }
+
+  strong {
+    font-size: 30px;
+  }
+}
+
+// ── результат оплати ──
+.result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-3;
+  max-width: 480px;
+  margin: $space-6 auto;
+  padding: $space-7 $space-5;
+  text-align: center;
+}
+
+.iconOk {
+  color: var(--color-success);
+}
+
+.iconFail {
+  color: var(--color-danger);
+}
+
+.iconWait {
+  color: var(--color-warning);
+}
+
+.resultActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $space-3;
+  margin-top: $space-3;
+}

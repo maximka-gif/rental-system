@@ -13,6 +13,7 @@ import {
   Bell,
   Sun,
   Moon,
+  Home,
   LogOut,
 } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme";
@@ -20,7 +21,7 @@ import { useAuth } from "../../context/AuthContext";
 import { cn } from "../../utils/cn";
 import styles from "./AppLayout.module.scss";
 
-const menu = [
+const ownerMenu = [
   { to: "/", label: "Дашборд", icon: LayoutDashboard, end: true },
   { to: "/properties", label: "Об'єкти", icon: Building2, end: false },
   { to: "/tenants", label: "Орендарі", icon: Users, end: false },
@@ -31,10 +32,19 @@ const menu = [
   { to: "/settings", label: "Налаштування", icon: Settings, end: false },
 ];
 
+const tenantMenu = [
+  { to: "/my", label: "Головна", icon: Home, end: true },
+  { to: "/my/lease", label: "Мій договір", icon: FileText, end: false },
+  { to: "/my/invoices", label: "Рахунки", icon: Wallet, end: false },
+  { to: "/my/requests", label: "Заявки на ремонт", icon: Wrench, end: false },
+  { to: "/my/settings", label: "Налаштування", icon: Settings, end: false },
+];
+
 export function AppLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggle } = useTheme();
   const { user, logout } = useAuth();
+  const menu = user?.role === "TENANT" ? tenantMenu : ownerMenu;
   const initials = user ? user.firstName[0] + user.lastName[0] : "";
   const roleLabel = {
     OWNER: "Власник",
