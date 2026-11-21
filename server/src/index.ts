@@ -12,6 +12,7 @@ import leasesRoutes from "./routes/leases.routes";
 import invoicesRoutes from "./routes/invoices.routes";
 import paymentsRoutes from "./routes/payments.routes";
 import cabinetRoutes from "./routes/cabinet.routes";
+import requestsRoutes from "./routes/requests.routes";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/invoices", invoicesRoutes);
 app.use("/api/invites", invitesRoutes);
 app.use("/api/payments", paymentsRoutes);
 app.use("/api/cabinet", cabinetRoutes);
+app.use("/api/requests", requestsRoutes);
 
 // тимчасовий маршрут для перевірки ролей (потім видалимо)
 app.get("/api/owner-only", authenticate, requireRole("OWNER"), (_req, res) => {
